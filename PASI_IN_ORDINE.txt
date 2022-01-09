@@ -1,0 +1,100 @@
+PAS 1:
+-> CALCULAM N.A. B.A. R.A.
+
+PAS 2:
+-> ORDONARE 2^ < X < 2^
+
+PAS 3:
+-> TRECEM ADRESELE PE SPATIU DE LUCRU
+
+PAS 4:
+CONFIGURARE TOATE LAN-URILE
+
+-> HOST:
+	-NAME
+	-PLACA RETEA
+	-IP CONFIG
+	-EMAIL
+
+-> SWITCH:
+	-NAME
+	-CONFIG
+
+-> ROUTER:
+	-NAME
+	-PLACA DE RETEA
+	-CONFIG
+
+PAS 5:
+-> PING SI SSH DIN HOST PANA IN ROUTER
+
+PAS 6:
+-> IN SERVER PUNEM SERVICII:
+	-HTTPS
+	-DNS
+	-EMAIL
+	-FTP
+	-SYSLOG
+	-DHCP - LA FINAL FACEM POOLS
+
+
+PAS 7:
+-> WI-FI
+	-IP ADDRESS : ALA MAI MARE
+	-DEFAULT GATEWAY : ALA MAI MIC
+	-NETWORK NAME = AL LUI (EG. WIFI-SEUL1) 
+	-LA SECURITY E ALA WPAE2PERSONAL ALA
+	-SCHIMBI CANALU PE 6 SAU 11
+-> PUNE LAP1 LA CARE SCHIMBI PLACE DE RETEA CU WPC300N
+	
+PAS 8:
+-> ROUTARE
+	-> STATICA 
+	-> DINAMICA
+
+PAS 9:
+-> VERIFICA CA MERGE ROUTAREA PING SSH
+-> FTP DIN HOSTS -> DIR
+		 -> FTP IP SERVER
+		 -> GET asa842-k8.bin
+-> MAIL DIN HOSTS
+
+PAS 10:
+-> DHCP
+	-> DIN SERVER - pentru fiecare lan facem un pool cu un name sugestiv
+		
+		-default gateway = ip router lan pt care fac pool
+		-dns = ip server
+		-start ip adress = host address + 1
+		-mask - masca de la lanul lui
+		-maxim_nr_of_users = nr. useri - aia de la host
+		-exemplu: 4100 useri, host = 125.208.64.161 => 4100-161 = 3939
+
+		-in router:
+			interface giga 0/0
+			ip helper-address ip server
+
+	-> DIN ROUTER - pe routerul din lan ul cu server:
+
+		-in router din care fac dhcp:
+			ip dhcp pool seul3POOL
+			network NA MASK de la seul3
+			dns-server ip_server
+			domain-name info.ro
+			default-router ip default_gateway(adica router) 
+			exit
+			ip dhcp excluded-address de la ip switch pana la ip host
+			do w
+		
+		-in router seul3:
+			interface giga 0/0
+			ip helper-address ip router din care am facut dhcp	
+
+PAS 10:
+PENTRU MAC IN LAP2/LAP2
+IN TERMINAL:
+	-> ipconfig /all
+	-> Physycal address
+
+
+	

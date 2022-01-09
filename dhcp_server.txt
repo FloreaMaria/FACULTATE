@@ -1,0 +1,12 @@
+pentru fiecare lan facem un pool cu un name sugestiv
+
+default gateway = ip router lan pt care fac pool
+dns = ip server
+start ip adress = host address + 1
+mask - masca de la lan-ul lui
+maxim_nr_of_users = nr. useri - aia de la host
+exemplu: 4100 useri, host = 125.208.64.161 => 4100-161 = 3939
+
+in router:
+-interface giga 0/0
+-ip helper-address ip server

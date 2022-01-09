@@ -1,0 +1,57 @@
+enable
+configure terminal
+no ip domain-lookup
+hostname RSTOCKHOLM4
+no cdp run
+service password-encryption
+security passwords min-length 10
+login block-for 60 attempts 3 within 20
+enable secret ciscosecpa55
+enable password ciscoenapa55
+banner login #Accesul este STRICT INTERZIS persoanelor neautorizate!#
+banner motd #Marti, ora 14:00, serverul va intra in mentenanta timp de 2 ore.#
+line console 0
+password ciscoconpa55
+login
+logging synchronous
+exec-timeout 20 20
+exit
+line vty 0 15
+password ciscovtypa55
+login
+logging synchronous
+exec-timeout 20 20
+exit
+exit
+clock set 20:23:00 20 MAY 2021
+configure terminal
+ip domain-name info.ro
+username Admin01 privilege 15 secret Admin01pa55
+line vty 0 15
+transport input ssh
+login local
+exit
+crypto key generate rsa
+2048
+logging host 141.0.3.254
+service timestamps log datetime msec
+service timestamps debug datetime msec
+interface giga 0/0
+shutdown
+exit
+interface giga 0/1
+shutdown
+exit
+interface giga 0/2
+shutdown
+exit
+interface serial 0/0/1
+shutdown
+exit
+interface serial 0/0/0
+description Legatura cu RSTOCKHOLM3
+ip address 141.0.10.13 255.255.255.252
+no shutdown
+exit
+exit
+copy run start
